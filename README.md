@@ -31,10 +31,10 @@ This project aims to contribute affordable, scalable monitoring tools to support
 
 ## Repository Structure
 .
-├── AI/                  # AI forecasting model (CNN–LSTM)
-├── Dashboard/           # React web dashboard
-├── IOT/                 # ESP32 firmware
-└── README.md            # This file
+├── AI/                  # AI Section: CNN–LSTM forecasting model (Jupyter notebook, sample data, requirements)
+├── Dashboard/           # Dashboard Section: React web application for monitoring & data visualization
+├── IOT/                 # IoT Section: ESP32 firmware (sensor_data_with_mqtt.ino, related libraries)
+└── README.md            # This documentation file
 
 
 ## Components
@@ -50,56 +50,47 @@ This project aims to contribute affordable, scalable monitoring tools to support
 - Use Channel ID and Write API Key in ESP32 code
 
 ### 3. AI Forecasting Model
-**Kiến trúc mô hình (Hybrid CNN–LSTM):**
+**Model Architecture (Hybrid CNN–LSTM):**
 
-- Nhiệm vụ: Dự báo spatio-temporal đa biến trên lưới 5×5
-- Input: (samples, 3 timesteps trước, 5, 5, 5 features) → dự đoán timestep tiếp theo
-- Các layer chính:
+- Task: Multi-variable spatio-temporal forecasting on a 5×5 grid
+- Input: (samples, 3 previous timesteps, 5, 5, 5 features) → predict the next timestep
+- Main layers:
   - TimeDistributed Conv2D(32 filters, kernel 3×3, ReLU, padding same)
   - TimeDistributed MaxPooling2D(2×2)
   - TimeDistributed Flatten
   - LSTM(64 units, tanh)
   - Dropout(0.2)
-  - Dense(125) → output cho 25 node × 5 features
-- Dữ liệu được normalize về [0,1]
-- Hiệu suất ban đầu: RMSE ≈ 0.1043 (normalized space)
+  - Dense(125) → output for 25 nodes × 5 features
+- All data is normalized to the [0,1] range
+- Initial performance: RMSE ≈ 0.1043 (in normalized space)
 
 ### 4. Dashboard
 
-🎯 Để làm gì?
+🎯 Purpose  
+Build a real-time dashboard to monitor sensor data from ThingSpeak, enabling users to:
 
-Xây dựng dashboard giám sát dữ liệu cảm biến từ ThingSpeak theo thời gian thực, giúp:
+- Track temperature, humidity, CO, combustible gases, PM2.5…
+- Visualize data through metric cards, 5×5 grid heatmaps, and time-series charts
+- Overlay AI model predictions
+- Receive alerts when values exceed dangerous thresholds (color changes + notifications)
 
-- Theo dõi nhiệt độ, độ ẩm, khí CO, gas dễ cháy, bụi PM2.5…
-- Hiển thị trực quan bằng thẻ số liệu, heatmap lưới 5×5, biểu đồ dòng thời gian
-- Overlay dự báo từ mô hình AI
-- Cảnh báo khi giá trị vượt ngưỡng nguy hiểm (màu sắc + thông báo)
+👉 Suitable for air quality monitoring systems, environmental IoT, labs, smart homes.
 
-👉 Phù hợp cho hệ thống giám sát chất lượng không khí, IoT môi trường, phòng lab, nhà thông minh.
+🛠 Technologies used
 
-🛠 Dùng công nghệ gì?
+- React.js – Component-based dashboard interface
+- JavaScript (ES6+) – Logic handling, API fetching, threshold-based coloring, sensor configuration
+- CSS – Responsive design, dark mode, animations
+- ThingSpeak REST API – Fetch real-time & historical data
+- Chart library (Recharts / Chart.js) – Beautiful, interactive charts
 
-- React.js – Giao diện dashboard component-based
-- JavaScript (ES6+) – Logic xử lý, fetch API, tính màu ngưỡng, cấu hình cảm biến
-- CSS – Responsive, dark mode, animation
-- ThingSpeak REST API – Lấy dữ liệu real-time & historical
-- Chart library (Recharts/Chart.js) – Biểu đồ đẹp, tương tác
+In short: Modern React frontend dashboard + IoT data from ThingSpeak + smart visualization with alerts and forecasting overlays.
 
-Tóm lại: Frontend React dashboard hiện đại + dữ liệu IoT từ ThingSpeak + hiển thị thông minh với cảnh báo và dự báo.
-
-**Chạy dashboard:**
-```bash
-cd Dashboard
-npm install
-npm start
-
-Future Improvements
-
-Thêm mô hình AI nâng cao (Transformer/GNN)
-Mobile app
-Anomaly detection thời gian thực
-Public API
-
+## Future Improvements
+- Add advanced AI models (Transformer / GNN)
+- Mobile application
+- Real-time anomaly detection
+- Public API
 
 This project is released into the public domain under **The Unlicense**.
 
