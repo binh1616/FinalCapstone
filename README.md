@@ -30,3 +30,83 @@ Air pollution is a major public health crisis. In Vietnam:
 This project aims to contribute affordable, scalable monitoring tools to support better urban air quality management.
 
 ## Repository Structure
+.
+├── AI/                  # AI forecasting model (CNN–LSTM)
+├── Dashboard/           # React web dashboard
+├── IOT/                 # ESP32 firmware
+└── README.md            # This file
+
+
+## Components
+
+### 1. IOT Layer (ESP32 Sensors)
+- Hardware per node: ESP32, DHT11, MQ-2, MQ-7, GP2Y1010AU0F, resistors, breadboard, power supply
+- Firmware: `IOT/sensor_data_with_mqtt.ino`
+- Upload via Arduino IDE, configure Wi-Fi + ThingSpeak/MQTT credentials
+- Deploy 25 nodes in 5×5 grid
+
+### 2. Cloud Storage
+- Create ThingSpeak channel with fields: Temperature, Humidity, CO, Gas, PM2.5 (+ optional Node ID/Grid position)
+- Use Channel ID and Write API Key in ESP32 code
+
+### 3. AI Forecasting Model
+**Kiến trúc mô hình (Hybrid CNN–LSTM):**
+
+- Nhiệm vụ: Dự báo spatio-temporal đa biến trên lưới 5×5
+- Input: (samples, 3 timesteps trước, 5, 5, 5 features) → dự đoán timestep tiếp theo
+- Các layer chính:
+  - TimeDistributed Conv2D(32 filters, kernel 3×3, ReLU, padding same)
+  - TimeDistributed MaxPooling2D(2×2)
+  - TimeDistributed Flatten
+  - LSTM(64 units, tanh)
+  - Dropout(0.2)
+  - Dense(125) → output cho 25 node × 5 features
+- Dữ liệu được normalize về [0,1]
+- Hiệu suất ban đầu: RMSE ≈ 0.1043 (normalized space)
+
+### 4. Dashboard
+
+🎯 Để làm gì?
+
+Xây dựng dashboard giám sát dữ liệu cảm biến từ ThingSpeak theo thời gian thực, giúp:
+
+- Theo dõi nhiệt độ, độ ẩm, khí CO, gas dễ cháy, bụi PM2.5…
+- Hiển thị trực quan bằng thẻ số liệu, heatmap lưới 5×5, biểu đồ dòng thời gian
+- Overlay dự báo từ mô hình AI
+- Cảnh báo khi giá trị vượt ngưỡng nguy hiểm (màu sắc + thông báo)
+
+👉 Phù hợp cho hệ thống giám sát chất lượng không khí, IoT môi trường, phòng lab, nhà thông minh.
+
+🛠 Dùng công nghệ gì?
+
+- React.js – Giao diện dashboard component-based
+- JavaScript (ES6+) – Logic xử lý, fetch API, tính màu ngưỡng, cấu hình cảm biến
+- CSS – Responsive, dark mode, animation
+- ThingSpeak REST API – Lấy dữ liệu real-time & historical
+- Chart library (Recharts/Chart.js) – Biểu đồ đẹp, tương tác
+
+Tóm lại: Frontend React dashboard hiện đại + dữ liệu IoT từ ThingSpeak + hiển thị thông minh với cảnh báo và dự báo.
+
+**Chạy dashboard:**
+```bash
+cd Dashboard
+npm install
+npm start
+
+Future Improvements
+
+Thêm mô hình AI nâng cao (Transformer/GNN)
+Mobile app
+Anomaly detection thời gian thực
+Public API
+
+
+This project is released into the public domain under **The Unlicense**.
+
+You are free to use, copy, modify, distribute, and use this project for any purpose, including commercial use, without asking for permission and without attribution.
+
+This software is provided "as is", without warranty of any kind.
+
+For more details, see: [https://unlicense.org](https://unlicense.org)
+
+
