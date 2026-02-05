@@ -31,10 +31,10 @@ This project aims to contribute affordable, scalable monitoring tools to support
 
 ## Repository Structure
 .
-├── AI/                  # AI Section: CNN–LSTM forecasting model (Jupyter notebook, sample data, requirements)
-├── Dashboard/           # Dashboard Section: React web application for monitoring & data visualization
-├── IOT/                 # IoT Section: ESP32 firmware (sensor_data_with_mqtt.ino, related libraries)
-└── README.md            # This documentation file
+├── AI                  # AI Section: CNN–LSTM forecasting model (Jupyter notebook, sample data, requirements)
+├── Dashboard           # Dashboard Section: React web application for monitoring & data visualization
+├── IOT                 # IoT Section: ESP32 firmware (sensor_data_with_mqtt.ino, related libraries)
+└── README.md           # This documentation file
 
 
 ## Components
