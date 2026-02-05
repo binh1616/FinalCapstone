@@ -29,12 +29,6 @@ Air pollution is a major public health crisis. In Vietnam:
 
 This project aims to contribute affordable, scalable monitoring tools to support better urban air quality management.
 
-## Repository Structure
-.
-├── AI/ # AI Section: CNN–LSTM forecasting model (Jupyter notebooks, sample data, requirements)
-├── Dashboard/ # Dashboard Section: React web application for monitoring & data visualization
-├── IOT/ # IoT Section: ESP32 firmware (sensor_data_with_mqtt.ino, related libraries)
-└── README.md # Project documentation
 
 
 ## Components
